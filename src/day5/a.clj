@@ -7,15 +7,14 @@
 (defn- input []
   (slurp "src/day5/res/input.txt"))
 
-(defn- to-stack-tuple [[stack-id & items]]
-  [stack-id (filterv (partial not= \space) items)])
+(def to-stack-tuple
+  (juxt last (comp (partial drop-while #{\space}) butlast)))
 
 (defn- get-initial-state [s]
   (->> s
     str/split-lines
-    reverse
     transpose
-    (filter (comp #(Character/isDigit %) first))
+    (filter (comp #(Character/isDigit %) last))
     (map to-stack-tuple)
     (into (sorted-map))))
 
@@ -31,8 +30,8 @@
 
 (defn- apply-move [state [from to]]
   (-> state
-    (update from #(subvec % 0 (dec (count %))))
-    (update to #(conj % (last (state from))))))
+    (update from rest)
+    (update to (partial cons (first (state from))))))
 
 (defn -main []
   (let [raw           (str/split (input) #"\n\n")
@@ -40,7 +39,7 @@
         moves         (expand-moves (parse-moves (nth raw 1)))]
     (->> moves
       (reduce apply-move initial-state)
-      (map (comp last second))
+      (map (comp first second))
       str/join
       prn)))
 
