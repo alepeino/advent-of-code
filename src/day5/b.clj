@@ -1,11 +1,11 @@
 (ns day5.b
+  (:require [clojure.java.io :as io])
   (:require [clojure.string :as str]))
+
+(defn- input [] (slurp (io/resource (str/replace *ns* #"\..$" "/input.txt"))))
 
 (defn transpose [m]
   (apply mapv vector m))
-
-(defn- input []
-  (slurp "src/day5/res/input.txt"))
 
 (def to-stack-tuple
   (juxt last (comp (partial drop-while #{\space}) butlast)))

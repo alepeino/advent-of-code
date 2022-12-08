@@ -1,8 +1,9 @@
 (ns day4.a
+  (:require [clojure.java.io :as io])
   (:require [clojure.set :as set])
   (:require [clojure.string :as str]))
 
-(defn- input [] (slurp "src/day4/res/input.txt"))
+(defn- input [] (slurp (io/resource (str/replace *ns* #"\..$" "/input.txt"))))
 
 (defn- section-pairs [line]
   (let [[_ a1 a2 b1 b2] (re-matches #"(\d+)-(\d+),(\d+)-(\d+)" line)]

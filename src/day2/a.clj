@@ -1,7 +1,8 @@
 (ns day2.a
+  (:require [clojure.java.io :as io])
   (:require [clojure.string :as str]))
 
-(defn input [] (slurp "src/day2/res/input.txt"))
+(defn- input [] (slurp (io/resource (str/replace *ns* #"\..$" "/input.txt"))))
 
 (def notation {"A" :rock
                "X" :rock

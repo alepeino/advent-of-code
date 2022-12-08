@@ -1,7 +1,8 @@
-(ns day6.a)
+(ns day6.a
+  (:require [clojure.java.io :as io])
+  (:require [clojure.string :as str]))
 
-(defn- input []
-  (slurp "src/day6/res/input.txt"))
+(defn- input [] (slurp (io/resource (str/replace *ns* #"\..$" "/input.txt"))))
 
 (def marker-width 4)
 
